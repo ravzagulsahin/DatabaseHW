@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class CourseInfoTemplate {
+public class CourseInfo {
    
-   public CourseInfoTemplate(String filename) {
-
+   public CourseInfo(String filename) {
+      
    }
    
    public void addCourse(String dept, String code, String title, int AKTS) {
