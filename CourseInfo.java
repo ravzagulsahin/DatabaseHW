@@ -4,130 +4,144 @@ import java.io.*;
 
 public class CourseInfo {
 
-    private String filename;
-    private ArrayList<String[]> clist;
+   private String filename;
+   private ArrayList<String[]> clist;
 
-    public CourseInfo(String filename) {
-        this.filename = filename;
-        clist = new ArrayList<>();
+   public CourseInfo(String filename) {
+      this.filename = filename;
+      clist = new ArrayList<>();
 
-        try {
-            File file = new File(filename);
-            Scanner scanner = new Scanner(file);
+      try {
+         File file = new File(filename);
+         Scanner scanner = new Scanner(file);
 
-            while(scanner.hasNextLine()){
-                String line = scanner.nextLine().trim();
-                if(line.equals("")) continue;
+         while (scanner.hasNextLine()) {
+            String line = scanner.nextLine().trim();
+            if (line.equals(""))
+               continue;
 
-                String[] parts = line.split(",");
+            String[] parts = line.split(",");
 
-                for(int i=0; i<parts.length; i++){
-                    parts[i] = parts[i].trim();
-                }
-
-                clist.add(parts);
+            for (int i = 0; i < parts.length; i++) {
+               parts[i] = parts[i].trim();
             }
 
-            scanner.close();
-        } catch(Exception e){}
-    }
+            clist.add(parts);
+         }
 
-    public void addCourse(String dept, String code, String title, int AKTS) {
+         scanner.close();
+      } catch (Exception e) {
+      }
+   }
 
-        String[] newCourse = {dept, code, title, String.valueOf(AKTS)};
-        clist.add(newCourse);
+   public void addCourse(String dept, String code, String title, int AKTS) {
 
-        try{
-            PrintWriter writer = new PrintWriter(new FileWriter(filename));
+      // test i iki kez çalıştırdığımda iki kez ekleme oldu
+      for (int i = 0; i < clist.size(); i++) {
+         String[] c = clist.get(i);
+         if (c[0].equals(dept) && c[1].equals(code)) {
+            return; // Ders zaten var ekleme yapmadan çık
+         }
+      }
+      
+      String[] newCourse = { dept, code, title, String.valueOf(AKTS) };
+      clist.add(newCourse);
 
-            for(int i=0; i<clist.size(); i++){
-                String[] c = clist.get(i);
-                writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
-            }
+      try {
+         PrintWriter writer = new PrintWriter(new FileWriter(filename));
 
-            writer.close();
-        } catch(Exception e){}
-    }
-
-    public ArrayList<String> getCourses(String dept) {
-
-        ArrayList<String> answer = new ArrayList<>();
-
-        for(int i=0; i<clist.size(); i++){
+         for (int i = 0; i < clist.size(); i++) {
             String[] c = clist.get(i);
+            writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
+         }
 
-            if(c[0].equals(dept)){
-                answer.add(c[0] + c[1]);
-            }
-        }
+         writer.close();
+      } catch (Exception e) {
+      }
+   }
 
-        return answer;
-    }
+   public ArrayList getCourses(String dept) {
 
-    public void removeCourse(String dept, String code) {
+      ArrayList<String> answer = new ArrayList<>();
 
-        for(int i=0; i<clist.size(); i++){
+      for (int i = 0; i < clist.size(); i++) {
+         String[] c = clist.get(i);
+
+         if (c[0].equals(dept)) {
+            answer.add(c[0] + c[1]);
+         }
+      }
+
+      return answer;
+   }
+
+   public void removeCourse(String dept, String code) {
+
+      for (int i = 0; i < clist.size(); i++) {
+         String[] c = clist.get(i);
+
+         if (c[0].equals(dept) && c[1].equals(code)) {
+            clist.remove(i);
+            i--;
+         }
+      }
+
+      try {
+         PrintWriter writer = new PrintWriter(new FileWriter(filename));
+
+         for (int i = 0; i < clist.size(); i++) {
             String[] c = clist.get(i);
+            writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
+         }
 
-            if(c[0].equals(dept) && c[1].equals(code)){
-                clist.remove(i);
-                i--;
-            }
-        }
+         writer.close();
+      } catch (Exception e) {
+      }
+   }
 
-        try{
-            PrintWriter writer = new PrintWriter(new FileWriter(filename));
+   public void changeAKTS(String dept, String code, int AKTS) {
 
-            for(int i=0; i<clist.size(); i++){
-                String[] c = clist.get(i);
-                writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
-            }
+      for (int i = 0; i < clist.size(); i++) {
+         String[] c = clist.get(i);
 
-            writer.close();
-        } catch(Exception e){}
-    }
+         if (c[0].equals(dept) && c[1].equals(code)) {
+            c[3] = String.valueOf(AKTS);
+         }
+      }
 
-    public void changeAKTS(String dept, String code, int AKTS) {
+      try {
+         PrintWriter writer = new PrintWriter(new FileWriter(filename));
 
-        for(int i=0; i<clist.size(); i++){
+         for (int i = 0; i < clist.size(); i++) {
             String[] c = clist.get(i);
+            writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
+         }
 
-            if(c[0].equals(dept) && c[1].equals(code)){
-                c[3] = String.valueOf(AKTS);
-            }
-        }
+         writer.close();
+      } catch (Exception e) {
+      }
+   }
 
-        try{
-            PrintWriter writer = new PrintWriter(new FileWriter(filename));
+   public void changeCourseCode(String dept, String code, String newCode) {
 
-            for(int i=0; i<clist.size(); i++){
-                String[] c = clist.get(i);
-                writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
-            }
+      for (int i = 0; i < clist.size(); i++) {
+         String[] c = clist.get(i);
 
-            writer.close();
-        } catch(Exception e){}
-    }
+         if (c[0].equals(dept) && c[1].equals(code)) {
+            c[1] = newCode;
+         }
+      }
 
-    public void changeCourseCode(String dept, String code, String newCode) {
+      try {
+         PrintWriter writer = new PrintWriter(new FileWriter(filename));
 
-        for(int i=0; i<clist.size(); i++){
+         for (int i = 0; i < clist.size(); i++) {
             String[] c = clist.get(i);
+            writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
+         }
 
-            if(c[0].equals(dept) && c[1].equals(code)){
-                c[1] = newCode;
-            }
-        }
-
-        try{
-            PrintWriter writer = new PrintWriter(new FileWriter(filename));
-
-            for(int i=0; i<clist.size(); i++){
-                String[] c = clist.get(i);
-                writer.println(c[0] + "," + c[1] + "," + c[2] + "," + c[3]);
-            }
-
-            writer.close();
-        } catch(Exception e){}
-    }
+         writer.close();
+      } catch (Exception e) {
+      }
+   }
 }
