@@ -1,0 +1,15 @@
+﻿TeacherID;Name;Surname;email;CV
+1;John;Doe;john@cse204.com;John Doe CV
+2;Can;Do;can@cse204.com;Can Do CV
+3;Jane;Doe;jane@cse204.com;Jane Doe CV
+4;Ceyn;Do;ceyn@cse204.com;Ceyn Do CV                     
+
+
+
+CREATE TABLE "Teacher" (
+    "TeacherID" INT PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL,
+    "Surname" VARCHAR(255) NOT NULL,
+    "email" VARCHAR(255) UNIQUE,
+    "CV" TEXT NOT NULL
+);

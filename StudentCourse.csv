@@ -1,0 +1,44 @@
+﻿Department;Code;Year;StudentID;Grade
+CSE;204;2024;1;71
+CSE;101;2024;1;55
+MATH;101;2024;1;2
+HIST;102;2024;1;16
+CSE;204;2024;2;82
+CSE;101;2024;2;92
+MATH;101;2024;2;47
+HIST;102;2024;2;14
+CSE;204;2024;3;34
+CSE;101;2024;3;80
+MATH;101;2024;3;33
+HIST;102;2024;3;14
+CSE;204;2025;4;81
+CSE;101;2025;4;63
+MATH;101;2025;4;90
+HIST;102;2025;4;91
+CSE;204;2025;5;30
+CSE;101;2025;5;99
+MATH;101;2025;5;52
+HIST;102;2025;5;11
+CSE;204;2025;6;83
+CSE;101;2025;6;4
+MATH;101;2025;6;4
+HIST;102;2025;6;11
+CSE;204;2026;7;47
+CSE;101;2026;7;62
+MATH;101;2026;7;95
+HIST;102;2026;7;99
+CSE;204;2026;8;19
+CSE;101;2026;8;34
+MATH;101;2026;8;65
+HIST;102;2026;8;68
+
+
+
+create table "StudentCourse" ("Department" varchar(255) not null,
+                          "Code" int not null,
+                          "Year" int not null,
+                          "StudentID" int not null,
+                          "Grade" int,
+                          primary key ("Department", "Code", "Year", "StudentID"),
+                          foreign key ("StudentID") references "Student"("StudentID"),
+                          foreign key ("Department", "Code", "Year") references "CourseSemester"("Department", "Code", "Year"))
