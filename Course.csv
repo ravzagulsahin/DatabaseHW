@@ -1,0 +1,13 @@
+﻿Department;Code;Title;AKTS
+CSE;204;Database;6
+CSE;101;Programming;6
+MATH;101;Intro to Math;6
+HIST;102;History of the World Part 1;4
+
+
+
+create table "Course" ("Department" varchar(255) not null,
+                      "Code" int not null,
+                      "Title" varchar(255) not null,
+                      "AKTS" int,
+                      primary key ("Department", "Code","Title"))
